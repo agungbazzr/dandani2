@@ -9,7 +9,7 @@ class Alamat extends Model
     protected $table = 'tb_alamat';
 
     protected $fillable = [
-      'id','id_pemilik','title','geo_lat','geo_long','alamat',
+      'id','id_pemilik','title','geo_lat','geo_long','alamat','detail_alamat',
     ];
 
     // public function transaksi()

@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::group(['prefix' => 'alamat'],function() {
             Route::get('/', [AlamatController::class,'index'])->name('alamat.index');
             Route::get('/create', [AlamatController::class,'create'])->name('alamat.create');
-            Route::post('/store', [AlamatController::class,'store'])->name('alamat.store');
+           
             Route::get('/destroy/{id}', [AlamatController::class,'destroy'])->name('alamat.destroy');
             Route::get('/edit/{id}', [AlamatController::class,'edit'])->name('alamat.edit');
             Route::put('/update/{id}', [AlamatController::class,'update'])->name('alamat.update');
@@ -122,6 +122,9 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/edit/{id}', [PemesananUserController::class,'edit'])->name('u_pemesanan.edit');
             Route::put('/update/{id}', [PemesananUserController::class,'update'])->name('u_pemesanan.update');
         });
+        Route::get('/profile', [UserController::class,'profile'])->name('user.profile');
+        Route::get('/alamat', [UserController::class,'alamat'])->name('user.alamat');
+        Route::post('/alamat_save', [UserController::class,'store_alamat'])->name('alamat.store');
     });
 
     Route::group(['middleware' => ['auth_login:tukang']], function () {

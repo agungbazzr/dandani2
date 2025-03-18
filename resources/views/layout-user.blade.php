@@ -50,7 +50,7 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{{ url('user') }}">Home<br></a></li>
-          <li><a href="{{ url('user') }}">Profile</a></li>
+          <li><a href="{{ url('profile') }}">Profile</a></li>
           <li><a href="#team">Tukang</a></li>
           <li><a href="{{ url('u_pemesanan') }}">Pemesanan</a></li>
         </ul>
@@ -156,6 +156,8 @@
 
   <!-- Vendor JS Files -->
   <script src="{{ asset('home/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+ 
+ 
   <script src="{{ asset('home/assets/vendor/php-email-form/validate.js') }}"></script>
   <script src="{{ asset('home/assets/vendor/aos/aos.js') }}"></script>
   <script src="{{ asset('home/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
