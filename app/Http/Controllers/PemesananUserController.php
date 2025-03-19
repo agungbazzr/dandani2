@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 // models
 use App\Models\Pemesanan;
 use App\Models\Jasa;
+use App\Models\Alamat;
 
 class PemesananUserController extends Controller
 {
@@ -49,7 +50,9 @@ class PemesananUserController extends Controller
     public function home_maintenance()
     {
         $jasa = Jasa::where('jenis_jasa', 'Home Maintenance')->get();
-        return view('user.pemesanan.home_maintenance', compact('jasa'));
+        $id = Auth::user()->id;
+        $alamat = Alamat::where('id_pemilik', $id)->where('status', 'Aktif')->get();
+        return view('user.pemesanan.home_maintenance', compact('jasa','alamat'));
     }
 
     /**
@@ -60,32 +63,33 @@ class PemesananUserController extends Controller
      */
     public function store(Request $request)
     {   
+
         $this->validate($request, [
-             'id_pelanggan' => 'required|max:255',
-                'id_tukang' => 'required|max:255',
+                'foto' => 'required|image|mimes:jpeg,jpg,png|max:2048',
                 'id_alamat' => 'required|max:255',
-                'id_jasa' => 'required|max:255',
-                'total' => 'required|max:255',
                 'keterangan' => 'required',
                 'pesan' => 'required',
                 
         ]);
-
+        $foto = $request->file('foto');
+        $foto->storeAs('public/image/pemesanan/', $foto->hashName());
+        $id = Auth::user()->id;
         $pemesanan = Pemesanan::create([
-            'id_pelanggan' => $request->id_pelanggan,
-              'id_tukang' => $request->id_tukang,
-              'id_alamat' => $request->id_alamat,
-              'id_jasa' => $request->id_jasa,
-              'total' => $request->total,
-              'keterangan' => $request->keterangan,
-              'pesan' => $request->pesan,
+                'image' => $foto->hashName(),
+                'id_pelanggan' => $id,
+                'id_tukang' => '0',
+                'id_jasa' =>'0',
+                'total' => '0',
+                'id_alamat' => $request->id_alamat,
+                'keterangan' => $request->keterangan,
+                'pesan' => $request->pesan,
               
         ]);
 
         if($pemesanan){
-            return redirect('pemesanan')->with('msg', 'Pemesanan Berhasil di Tambahkan!');
+            return redirect('u_pemesanan/home_maintenance')->with('msg', 'Pemesanan Berhasil di Tambahkan!');
         } else {
-            return redirect()->route('pemesanan.create')->with('error', 'Pemesanan gagal di Tambahkan');
+            return redirect()->route('u_pemesanan.home_maintenance')->with('error', 'Pemesanan gagal di Tambahkan');
         }
 
 }

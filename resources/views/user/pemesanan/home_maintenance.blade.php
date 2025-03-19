@@ -1,7 +1,5 @@
 @extends('layout-user')
 @section('content')
-<link href="{{ asset('home/assets/vendor/bootstrap/js/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-<link href="{{ asset('home/assets/vendor/bootstrap/js/css/bootstrap-datepicker.css') }}" rel="stylesheet">
 <style>
     input[type=checkbox]
         {
@@ -32,6 +30,23 @@
           padding: 10px;
         }
 </style>
+@if(session('error'))
+  <div class="alert alert-error">
+   {{ session('error') }}
+ </div>
+ @endif
+
+ @if(count($errors) > 0)
+ <div class="alert alert-danger">
+   <strong>info !!</strong>
+   <br>
+   <ul>
+     @foreach($errors->all() as $error)
+     <li>{{ $error }}</li>
+     @endforeach
+   </ul>
+ </div>
+ @endif
 <section id="features" class="features section">
 
       <!-- Section Title -->
@@ -41,7 +56,7 @@
       </div><!-- End Section Title -->
 
       <div class="container">
-      <form action="{{route('u_pemesanan.store')}}" method="POST" id="regForm">
+      <form enctype="multipart/form-data" action="{{route('u_pemesanan.store')}}" method="POST" id="regForm">
       {{ csrf_field() }}
         <div class="row gy-5">
 
@@ -86,7 +101,7 @@
                 <div class="row">
                   <div class="col-md-6 form-group">
                   <label class="form-label font-weight-bold">Foto</label>
-                    <input name="foto" type="text" class="form-control" placeholder="Lampirkan Foto (opsional)">
+                    <input name="foto" accept=".jpg, .png,.jpeg" type="file" class="form-control" placeholder="Lampirkan Foto (opsional)">
                   </div>
                   <div class="col-md-6 form-group">
                   <label class="form-label font-weight-bold">Tanggal Pengerjaan *</label>
@@ -97,13 +112,34 @@
                 <div class="row">
                   <div class="col form-group">
                   <label class="form-label font-weight-bold">Alamat *</label>
-                    <input name="id_alamat" type="text" class="form-control" placeholder="Pilih Alamat *">
+                  <table class="table">
+                      @foreach($alamat as $data )
+                      <input type="hidden" name="id_alamat" value="{{ $data->id }}">
+                      <tr>
+                        <td>
+                          <h5>{{ $data->title }} </h5>
+                          <strong>{{ $data->detail_alamat }}</strong>
+                          <p>
+                            {{ $data->alamat }}
+                        </p>
+                        </td>
+                        <td class="text-center"> <a href="{{ url('profile')}}" class="btn btn-primary"></i> Ubah</a></td>
+
+                      </tr>
+                      @endforeach
+                    </table>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col form-group">
                   <label class="form-label font-weight-bold">Deskripsi Tambahan *</label>
-                    <textarea name="deskripsi" class="form-control" placeholder="Deskripsi Tambahan *"></textarea>
+                    <textarea name="keterangan" class="form-control" placeholder="Deskripsi Tambahan *"></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col form-group">
+                  <label class="form-label font-weight-bold">Pesan *</label>
+                  <input name="pesan" type="text" class="form-control" placeholder="Lampirkan Pesan (opsional)">
                   </div>
                 </div>
 

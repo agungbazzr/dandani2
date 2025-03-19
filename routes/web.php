@@ -124,6 +124,7 @@ Route::group(['middleware' => ['auth']], function () {
         });
         Route::get('/profile', [UserController::class,'profile'])->name('user.profile');
         Route::get('/alamat', [UserController::class,'alamat'])->name('user.alamat');
+        Route::get('/ubah_alamat/{id_alamat}', [UserController::class,'ubah_alamat'])->name('user.ubah_alamat');
         Route::post('/alamat_save', [UserController::class,'store_alamat'])->name('alamat.store');
     });
 

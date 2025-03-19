@@ -24,6 +24,18 @@ class UserController extends Controller
         return view('user.profile',compact('alamat'));
      }
 
+     public function ubah_alamat($id_alamat){
+       
+        $status = array(
+              'status' => "Aktif",
+              
+        );
+        $update1 = Alamat::where('status','Aktif')->update( array('status' => "",));
+        $update = Alamat::where('id',$id_alamat)->update($status);
+        
+        return redirect()->route('user.profile');
+     }
+
      public function alamat(){
 
          return view('user.alamat');
@@ -35,11 +47,18 @@ class UserController extends Controller
                'alamat' => 'required',
                
        ]);
-
+       $id = Auth::user()->id;
+       $alamat = Alamat::where('id_pemilik', $id)->where('status', "Aktif")->exists();
+       if ($alamat) {
+        $status = "";
+       }else{
+        $status = "Aktif";
+       }
        $alamat = Alamat::create([
-           'id_pemilik' => Auth::user()->id,
+             'id_pemilik' => $id,
              'title' => $request->title,
              'alamat' => $request->alamat,
+             'status' => $status,
              'detail_alamat' => $request->detail_alamat,
              
        ]);

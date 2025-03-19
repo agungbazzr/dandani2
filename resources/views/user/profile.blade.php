@@ -87,21 +87,28 @@
                   <a href="{{ route('user.alamat') }}" class=""><i class="bi bi-plus"></i> Tambah Alamat</a>
                 </div>
                   <div class="portfolio-description aos-init aos-animate " data-aos="fade-up" data-aos-delay="300">
-                  
-                    <h2>Alamat </h2>
-                    <div class="about content">
-                      <h3>Who We Are</h3>
-                      <h2>Expedita voluptas omnis cupiditate totam eveniet nobis sint iste. Dolores est repellat corrupti reprehenderit.</h2>
-                      <p>
-                        Quisquam vel ut sint cum eos hic dolores aperiam. Sed deserunt et. Inventore et et dolor consequatur itaque ut voluptate sed et. Magnam nam ipsum tenetur suscipit voluptatum nam et est corrupti.
-                      </p>
-                      <div class="text-center text-lg-start">
-                        <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
-                          <span>Read More</span>
-                          <i class="bi bi-arrow-right"></i>
-                        </a>
-                      </div>
-                    </div>
+                  <h2>Alamat </h2>
+
+                    <table class="table">
+                      @foreach($alamat as $data )
+                      <tr>
+                        <td>
+                          <h5>{{ $data->title }} <small style="color:red;">{{ $data->status }}</small></h5>
+                          <strong>{{ $data->detail_alamat }}</strong>
+                          <p>
+                            {{ $data->alamat }}
+                        </p>
+                        </td>
+                        @if($data->status != "Aktif")
+                        <td class="text-center"> <a href="{{ url('ubah_alamat')}}/{{ $data->id }}" class="btn btn-primary"></i> Gunakan</a></td>
+                        @else
+                        <td></td>
+                        @endif
+
+                      </tr>
+                      @endforeach
+                    </table>
+                   
                   </div>
                   
               </div>
